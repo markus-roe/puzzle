@@ -1,0 +1,63 @@
+<mat-card>
+    <mat-card-title>Sign Up</mat-card-title>
+    <mat-card-content>
+        <form>
+            <mat-card-subtitle>Userdata</mat-card-subtitle>
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput [formControl]="emailControl" type="email">
+                <mat-error *ngIf="emailControl.hasError('required')">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="emailControl.hasError('email')">
+                    Invalid email
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput [formControl]="passwordControl" [type]="hidePassword ? 'password' : 'text'">
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility' :
+                    'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="passwordControl.hasError('required')">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Confirm Password</mat-label>
+                <input matInput [formControl]="confirmPasswordControl"
+                    [type]="hideConfirmPassword ? 'password' : 'text'">
+                <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">{{hideConfirmPassword ?
+                    'visibility' : 'visibility_off'}}</mat-icon>
+                <mat-error *ngIf="confirmPasswordControl.hasError('required')">
+                    Confirm password is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-card-subtitle>Adresse</mat-card-subtitle>
+            <mat-form-field>
+                <mat-label>Firma</mat-label>
+                <input matInput disabled value="FH Technikum Wien">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Straße</mat-label>
+                <input matInput [formControl]="addressControl">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Stadt</mat-label>
+                <input matInput [formControl]="cityControl">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>PLZ</mat-label>
+                <input matInput [formControl]="zipControl">
+                <mat-error *ngIf="zipControl.hasError('pattern')">
+                    Only numbers allowed
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="submit()">Register</button>
+    </mat-card-actions>
+</mat-card>
