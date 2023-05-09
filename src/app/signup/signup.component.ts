@@ -24,8 +24,8 @@ export class SignUpComponent {
 
 
   submit() {
-    if (this.emailControl.invalid || this.passwordControl.invalid || this.confirmPasswordControl.invalid) {
-      this.snackBar.open("Please fill in all required fields.", "", {
+    if (this.emailControl.invalid || this.passwordControl.invalid || this.confirmPasswordControl.invalid || this.zipControl.hasError('pattern')) {
+      this.snackBar.open("Please correct the form.", "", {
         duration: 3000,
       });
       return;
