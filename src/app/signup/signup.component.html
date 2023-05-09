@@ -47,17 +47,19 @@
                 <mat-label>Straße</mat-label>
                 <textarea matInput [formControl]="addressControl"></textarea>
             </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Stadt</mat-label>
-                <input matInput [formControl]="cityControl">
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>PLZ</mat-label>
-                <input matInput [formControl]="zipControl">
-                <mat-error *ngIf="zipControl.hasError('pattern')">
-                    Only numbers allowed
-                </mat-error>
-            </mat-form-field>
+            <div class="plz-city-container">
+                <mat-form-field appearance="fill">
+                    <mat-label>PLZ</mat-label>
+                    <input matInput [formControl]="zipControl">
+                    <mat-error *ngIf="zipControl.hasError('pattern')">
+                        Only numbers allowed
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Stadt</mat-label>
+                    <input matInput [formControl]="cityControl">
+                </mat-form-field>
+            </div>
         </form>
     </mat-card-content>
     <mat-card-actions>

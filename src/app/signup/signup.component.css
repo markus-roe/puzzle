@@ -27,16 +27,13 @@
   }
   
   
-  .span-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #444;
-  }
-  
   mat-card-subtitle {
     color: black;
     margin-bottom: 1rem;
   }
+
+.plz-city-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
