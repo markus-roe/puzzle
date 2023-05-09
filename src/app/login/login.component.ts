@@ -20,6 +20,7 @@ export class LoginComponent {
 
   submit() {
     if (this.emailControl.invalid || this.passwordControl.invalid) {
+      console.error("Login failed");
       this.snackBar.open("Please fill in all required fields.", "", {
         duration: 3000,
       });
