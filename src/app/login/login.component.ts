@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BackendService } from '../backend.service';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent {
 
-  constructor(private snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar, private backendService: BackendService) { }
 
   hidePassword = true;
   hideConfirmPassword = true;
@@ -19,7 +20,7 @@ export class LoginComponent {
   passwordControl = new FormControl('', Validators.required);
 
   submit() {
-    if (this.emailControl.invalid || this.passwordControl.invalid) {
+    if (this.emailControl.invalid || this.emailControl.value == null || this.passwordControl.invalid || this.passwordControl.value == null) {
       console.error("Login failed");
       this.snackBar.open("Please fill in all required fields.", "", {
         duration: 3000,
@@ -27,16 +28,10 @@ export class LoginComponent {
       return;
     }
 
-    if (this.emailControl.value == "test@test.at" && this.passwordControl.value == "12345678") {
-      console.log("Login successful.");
-      this.snackBar.open("Login successful.", "", {
-        duration: 3000,
-      });
-    } else {
-      console.error("Login failed");
-      this.snackBar.open("Incorrect email or password.", "", {
-        duration: 3000,
-      });
-    }
+    const email = this.emailControl.value;
+    const password = this.passwordControl.value;
+
+    this.backendService.login(email, password);
   }
+
 }

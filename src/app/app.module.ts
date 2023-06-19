@@ -42,6 +42,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SignUpComponent } from './signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -91,7 +92,8 @@ import { SignUpComponent } from './signup/signup.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    NoopAnimationsModule
+    NoopAnimationsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
