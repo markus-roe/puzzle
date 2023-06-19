@@ -1,0 +1,38 @@
+<mat-card>
+    <mat-card-title>Game Dashboard</mat-card-title>
+    <mat-card-content>
+        <form (ngSubmit)="sendHighscore()">
+            <mat-form-field appearance="fill">
+                <mat-label>Username</mat-label>
+                <input matInput [formControl]="usernameControl" type="text">
+                <mat-error *ngIf="usernameControl.hasError('required')">
+                    Username is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Score</mat-label>
+                <input matInput [formControl]="scoreControl" type="number">
+                <mat-error *ngIf="scoreControl.hasError('required')">
+                    Score is required
+                </mat-error>
+            </mat-form-field>
+
+        </form>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" (click)="sendHighscore()">Send Highscore</button>
+    </mat-card-actions>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="getHighscores()">Get Highscores</button>
+    </mat-card-actions>
+    <mat-card-actions>
+        <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+    </mat-card-actions>
+    <mat-card-content>
+        <h2>Highscores</h2>
+        <div *ngFor="let highscore of highscores">
+            <p>{{ highscore.username }}: {{ highscore.score }}</p>
+        </div>
+    </mat-card-content>
+</mat-card>

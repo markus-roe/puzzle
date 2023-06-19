@@ -43,6 +43,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SignUpComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LandingPageComponent } from './landingpage/landingpage.component';
 
 
 
@@ -50,7 +51,8 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     AppComponent,
     LoginComponent,
-    SignUpComponent
+    SignUpComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
