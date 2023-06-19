@@ -1,0 +1,69 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Angular Puzzle API",
+      "version": "1.0.0",
+      "author": "Markus Roesner"
+    },
+    "paths": {
+      "/login": {
+        "post": {
+          "summary": "Benutzeranmeldung",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "password": { "type": "string" }
+                  },
+                  "required": ["email", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Anmeldeinformationen korrekt"
+            },
+            "400": {
+              "description": "Ungültige Anmeldeinformationen"
+            }
+          }
+        }
+      },
+      "/signup": {
+        "post": {
+          "summary": "Benutzerregistrierung",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": { "type": "string" },
+                    "password": { "type": "string" },
+                    "confirmPassword": { "type": "string" },
+                    "address": { "type": "string" },
+                    "zip": { "type": "integer" },
+                    "city": { "type": "string" }
+                  },
+                  "required": ["email", "password", "confirmPassword", "zip"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Registrierung erfolgreich"
+            },
+            "400": {
+              "description": "Ungültige Registrierungsdaten"
+            }
+          }
+        }
+      }
+    }
+  }
+  
