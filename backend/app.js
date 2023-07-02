@@ -1,18 +1,11 @@
 const express = require("express");
 const cors = require('cors');
+const User = require('./models/user');
+const { HighScore, HighScoreList } = require('./models/highscore');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-let userData = {
-    "ich@du.at": "test",
-    "ich2@du.at": "test3"
-};
-
-let tokenData = {};
-
-let highscoreData = [];
 
 app.use((req, res, next) => {
     console.log("-------------------")
@@ -22,21 +15,18 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get("/", (req, res) => {
-    // Alle Token Daten ausgeben
-    res.status(200).json([{ "tokenData": tokenData, "highscoreData": highscoreData }]);
-});
 
-app.post("/login", (req, res) => {
-    // Übergebene Daten loggen
-    console.log(req.body);
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
 
-    // Passwort überprüfen
-    if (req.body.password === userData[req.body.email]) {
+    const user = await User.findOne({ email });
+
+    if (user && user.password === password) {
         // Login erfolgreich
-        const token = (Math.random() + 1).toString(36).substring(2)
+        const token = (Math.random() + 1).toString(36).substring(2);
 
-        tokenData[req.body.email] = token;
+        user.token = token;
+        await user.save();
 
         res.status(200).json({
             Token: token
@@ -47,19 +37,23 @@ app.post("/login", (req, res) => {
 });
 
 // Register
-app.post("/users", (req, res) => {
+app.post("/users", async (req, res) => {
     const { email, password } = req.body;
 
-    // Check if user already exists
-    if (email in userData) {
+    // Überprüfen, ob der Benutzer bereits existiert
+    let user = await User.findOne({ email });
+
+    if (user) {
         res.status(409).send("User already exists");
     } else {
-        // Save new user in the userData
-        userData[email] = password;
 
-        // Generate authentication token
         const token = (Math.random() + 1).toString(36).substring(2);
-        tokenData[email] = token;
+
+
+        user = new User({ email, password, token });
+
+        await user.save();
+
 
         res.status(200).json({
             message: "User successfully created",
@@ -68,38 +62,51 @@ app.post("/users", (req, res) => {
     }
 });
 
+
 // Handle Highscores
-app.post("/highscores", (req, res) => {
-    const { username, score } = req.body;
+app.post("/highscores", async (req, res) => {
+    const { username, score, gameName } = req.body;
 
-    // Save the high score
-    highscoreData.push({ username, score });
+    const highScore = new HighScore({ playerName: username, score });
 
-    // Return status 200 and message
+    let highScoreList = await HighScoreList.findOne({ gameName });
+
+    if (!highScoreList) {
+        highScoreList = new HighScoreList({ gameName, highScores: [highScore] });
+    } else {
+        highScoreList.highScores.push(highScore);
+    }
+
+    await highScoreList.save();
+
     res.status(200).json({
         message: "Highscore successfully saved"
     });
 });
 
-app.get("/highscores", (req, res) => {
-    // Return all highscores
+app.get("/highscores", async (req, res) => {
+    // Alle Highscores aus der Datenbank abrufen
+    const highscoreData = await HighScoreList.find();
+
     res.status(200).json({
         highscores: highscoreData
     });
 });
 
 // Logout
-app.delete("/sessions", (req, res) => {
+app.delete("/sessions", async (req, res) => {
     const { email } = req.body;
 
-    // Remove the token
-    delete tokenData[email];
+    const user = await User.findOne({ email });
 
-    // Return status 200 and message
+    if (user) {
+        user.token = null;
+        await user.save();
+    }
+
     res.status(200).json({
         message: "Successfully logged out"
     });
 });
 
 module.exports = app;
-
